@@ -47,7 +47,7 @@ for (i in 30:2940) {
   CI <- round(exp(confint(fit_1, "data_model[, i]")), digits = 2)
   P_Value <- summary_fit$coefficients["data_model[, i]", "Pr(>|z|)"]
   
-  # 将结果添加到数据框中
+
   NAFLD_cox_model1 <- rbind(NAFLD_cox_model1, data.frame(
     Protein_Name = protein_name,
     HR = HR,
@@ -121,8 +121,7 @@ library(reportROC)
 result_ROC_2 <- data.frame()
 
 
-for (i in 2:325) {  # 假设蛋白质数据从第 24 列开始
-  # 提取蛋白质名称
+for (i in 2:325) { 
   protein_name <- names(dat_sig_shared_2_final)[i]
   
   ROC.info <- reportROC(gold=dat_sig_shared_2_final$NAFLD,
@@ -335,9 +334,7 @@ for (i in 18:1) {
     lgb_train <- lgb.Dataset(data = lgb_data[, -1], 
                              label = lgb_data[, 1])
     
-    
-    
-    # 参数    
+
     lightgbm_tune_fit_NAFLD<-readRDS("E:/UKBPPP/Final_result/lightgbm_tune_fit_NAFLD.rds")
     lightgbm_bst_NAFLD <- select_best(lightgbm_tune_fit_NAFLD,metric="roc_auc")
     lgb_params <- list(objective = 'binary',metric = 'auc',
@@ -455,7 +452,7 @@ for (i in 18:2) {
       valids = list(valid = lgb.Dataset(data = dat_protein_select[, -1], label = dat_protein_select[, 1]))
     )
     
-    #在测试集进行预测，并绘制ROC曲线
+    
     lgb_predicted_prob_tr <- predict(lgb_model, as.matrix(dat_protein_select_test[,-1]))
     
     
@@ -485,7 +482,7 @@ for (i in 18:2) {
     dat_protein_select_test_1<-dat_test[, c("NAFLD",selected_features_1)]
     
     
-    # 参数    
+
     lgb_params <- list(objective = 'binary',metric = 'auc',
                        n_estimators=lightgbm_bst_NAFLD$trees,
                        min_data_in_leaf=lightgbm_bst_NAFLD$min_n,
@@ -500,7 +497,7 @@ for (i in 18:2) {
       valids = list(valid = lgb.Dataset(data = dat_protein_select_1[, -1], label = dat_protein_select_1[, 1]))
     )
     
-    #在测试集进行预测，并绘制ROC曲线
+
     lgb_predicted_prob_tr_1 <- predict(lgb_model_1, as.matrix(dat_protein_select_test_1[,-1]))
     roc1 <- roc(dat_protein_select_test_1$NAFLD, lgb_predicted_prob_tr_1)
     
@@ -521,7 +518,7 @@ for (i in 18:2) {
       valids = list(valid = lgb.Dataset(data = dat_protein_select_2[, -1], label = dat_protein_select_2[, 1]))
     )
     
-    #在测试集进行预测，并绘制ROC曲线
+
     lgb_predicted_prob_tr_2 <- predict(lgb_model_2, as.matrix(dat_protein_select_test_2[,-1]))
     
     roc2 <- roc(dat_protein_select_test_2$NAFLD, lgb_predicted_prob_tr_2)
